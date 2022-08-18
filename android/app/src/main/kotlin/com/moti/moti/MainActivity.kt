@@ -1,4 +1,4 @@
-package com.moti.moti
+package com.example.moti_mobile
 import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine

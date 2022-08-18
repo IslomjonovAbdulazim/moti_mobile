@@ -9,26 +9,26 @@ class HomeMap extends StatefulWidget {
 }
 
 class _HomeMapState extends State<HomeMap> {
-  // _onMapCreated(YandexMapController controller) async{
-  //   await controller.getCameraPosition().then((value) async{
-  //     await controller.moveCamera(CameraUpdate.newCameraPosition(const CameraPosition(
-  //         target: Point(latitude: 41.2995, longitude: 69.2401),
-  //         zoom: 12.0)));
-  //   });
-  // }
+  _onMapCreated(YandexMapController controller) async{
+    await controller.getCameraPosition().then((value) async{
+      await controller.moveCamera(CameraUpdate.newCameraPosition(const CameraPosition(
+          target: Point(latitude: 41.2995, longitude: 69.2401),
+          zoom: 12.0)));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
-      // YandexMap(
-      //   tiltGesturesEnabled: true,
-      //   zoomGesturesEnabled: true,
-      //   rotateGesturesEnabled: true,
-      //   scrollGesturesEnabled: true,
-      //   modelsEnabled: true,
-      //   nightModeEnabled: false,
-      //   indoorEnabled: false,
-      //   liteModeEnabled: false,
-      //   onMapCreated: _onMapCreated);
+    return
+      YandexMap(
+        tiltGesturesEnabled: true,
+        zoomGesturesEnabled: true,
+        rotateGesturesEnabled: true,
+        scrollGesturesEnabled: true,
+        modelsEnabled: true,
+        nightModeEnabled: false,
+        indoorEnabled: false,
+        liteModeEnabled: false,
+        onMapCreated: _onMapCreated);
   }
 }
