@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart' as GeoCode;
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -5,11 +6,14 @@ import 'package:location/location.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 import '../../models/parsing/moti_product_model.dart';
 
-class HomeController extends GetxController {
+class HomeController extends GetxController with GetSingleTickerProviderStateMixin{
   Location location = Location();
   String currentAddress = 'search';
   late LocationData locationData;
   late YandexMapController yandexController;
+  late AnimationController animController;
+  late Animation<double> animation;
+  late Animation<Color?> animationColor;
   bool colorBool = true;
   int duration = 600;
   List<MapObject> mapObjects = [  PlacemarkMapObject(
@@ -51,11 +55,26 @@ class HomeController extends GetxController {
     currentAddress = '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
     update();
   }
+  onCameraPositionChanged(CameraPosition cameraPosition,CameraUpdateReason cameraUpdateReason, bool bullet){
+    print("Latitude: ${cameraPosition.target.latitude}, Longitude: ${cameraPosition.target.longitude}, bool: $bullet,");
+    getAddressFromLatLong(cameraPosition.target.latitude, cameraPosition.target.longitude);
+    colorBool = bullet;
+    if(bullet == false){
+      animController.forward();
+    }
+    if(animController.isCompleted || bullet == false){
+      animController.repeat(reverse: true);
+    }else{
+      animController.stop();
+    }
+    print(currentAddress);
+  }
+
   onMapCreated(YandexMapController controller) async{
     yandexController = controller;
     await yandexController.getCameraPosition().then((value) async{
       await yandexController.moveCamera(
-          CameraUpdate.newCameraPosition( CameraPosition(
+          CameraUpdate.newCameraPosition( const CameraPosition(
               target: Point(latitude: 41.2995, longitude: 69.2401),
               zoom: 17.0)));
     });
@@ -69,6 +88,26 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     getPosition();
+    animController = AnimationController(
+      vsync: this,
+      duration:  Duration(milliseconds: duration),
+    );
+
+    animation = Tween<double>(
+      begin: 20,
+      end: 0,
+    ).animate(CurvedAnimation(
+      parent: animController,
+      curve: const Interval(0.0, 1.0, curve: Curves.fastOutSlowIn),
+    ));
+
+    animationColor = ColorTween(begin: Colors.orange, end: Colors.red)
+        .animate(animController);
+    animationColor.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        animController.repeat(reverse: true);
+      }
+    });
     super.onInit();
   }
 
@@ -79,3 +118,4 @@ class HomeController extends GetxController {
   }
 
 }
+

@@ -4,60 +4,10 @@ import 'package:moti/pages/home/home_controller.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 
-class HomeMap extends StatefulWidget {
+class HomeMap extends StatelessWidget {
   const HomeMap({Key? key}) : super(key: key);
 
-  @override
-  State<HomeMap> createState() => _HomeMapState();
-}
 
-class _HomeMapState extends State<HomeMap>  with SingleTickerProviderStateMixin{
-  late AnimationController animController;
-  late Animation<double> animation;
-  late Animation<Color?> animationColor;
-  onCameraPositionChanged(CameraPosition cameraPosition,CameraUpdateReason cameraUpdateReason, bool bullet){
-    print("Latitude: ${cameraPosition.target.latitude}, Longitude: ${cameraPosition.target.longitude}, bool: $bullet,");
-    HomeController().getAddressFromLatLong(cameraPosition.target.latitude, cameraPosition.target.longitude);
-    HomeController().colorBool = bullet;
-    if(bullet == false){
-      animController.forward();
-    }
-    if(animController.isCompleted || bullet == false){
-      animController.repeat(reverse: true);
-    }else{
-      animController.stop();
-    }
-    print(HomeController().currentAddress);
-  }
-  @override
-  void initState(){
-    animController = AnimationController(
-      vsync: this,
-      duration:  Duration(milliseconds: HomeController().duration),
-    );
-
-    animation = Tween<double>(
-      begin: 20,
-      end: 0,
-    ).animate(CurvedAnimation(
-      parent: animController,
-      curve: const Interval(0.0, 1.0, curve: Curves.fastOutSlowIn),
-    ));
-
-    animationColor = ColorTween(begin: Colors.orange, end: Colors.red)
-        .animate(animController);
-    animationColor.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        animController.repeat(reverse: true);
-      }
-    });
-    super.initState();
-  }
-  @override
-  void dispose() {
-    animController.dispose();
-    super.dispose();
-  }
   @override
   Widget build(BuildContext context) {
     return
@@ -77,19 +27,19 @@ class _HomeMapState extends State<HomeMap>  with SingleTickerProviderStateMixin{
                 indoorEnabled: false,
                 liteModeEnabled: false,
                 onMapCreated: controller.onMapCreated,
-                onCameraPositionChanged: onCameraPositionChanged,
+                onCameraPositionChanged: controller.onCameraPositionChanged,
               ),
               IgnorePointer(
                 child: Center(
                   child:  AnimatedBuilder(
-                    animation: animation,
+                    animation: controller.animation,
                     builder: (context, child) {
                       return AnimatedPadding(
-                        padding: EdgeInsets.only(bottom: animation.value),
+                        padding: EdgeInsets.only(bottom: controller.animation.value),
                         duration: const Duration(milliseconds: 500),
                         child:  Icon(
                           Icons.location_on,
-                          color: animationColor.value,
+                          color: controller.animationColor.value,
                           size: 30,
                         ),
                       );
