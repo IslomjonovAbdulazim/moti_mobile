@@ -19,7 +19,7 @@ class HomeMotiProductItem extends StatelessWidget {
       height: 150,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: AppColors.appColors.motiProductItemHomeBG,
+        color: AppColors.instance.motiProductItemHomeBG,
       ),
       child: Row(
         children: [
@@ -56,18 +56,18 @@ class HomeMotiProductItem extends StatelessWidget {
                       IconButton(
                         onPressed: () {},
                         icon: SvgPicture.asset(
-                          Ic.ic.heart,
+                          Ic.instance.heart,
                           height: 25,
                         ),
-                        color: AppColors.appColors.likeButton,
+                        color: AppColors.instance.likeButton,
                       ),
                       IconButton(
                         onPressed: () {},
                         icon: SvgPicture.asset(
-                          Ic.ic.cart,
+                          Ic.instance.cart,
                           height: 25,
                         ),
-                        color: AppColors.appColors.cartBG,
+                        color: AppColors.instance.cartBG,
                       ),
                     ],
                   ),

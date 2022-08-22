@@ -13,12 +13,12 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {    final height = Get.height;
 
   return Scaffold(
-    backgroundColor: AppColors.appColors.bg,
+    backgroundColor: AppColors.instance.bg,
       body: SlidingUpPanel(
         parallaxEnabled: true,
         parallaxOffset: .5,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-        color: AppColors.appColors.bg,
+        color: AppColors.instance.bg,
         minHeight: height * .3,
         maxHeight: height * .85,
         body: const HomeMap(),
