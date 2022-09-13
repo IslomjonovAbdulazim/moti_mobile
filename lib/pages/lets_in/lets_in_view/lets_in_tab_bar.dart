@@ -77,7 +77,8 @@ class _MakeButton extends StatelessWidget {
         alignment: Alignment.center,
         margin: EdgeInsets.all(Dimensions.checkOutTabBarPadding),
         decoration: BoxDecoration(
-          color: isCurrent ? AppColors.instance.bg : AppColors.instance.tabBarBG,
+          color:
+              isCurrent ? AppColors.instance.bg : AppColors.instance.tabBarBG,
           borderRadius: BorderRadius.circular(
             Dimensions.checkOutTabBarSelectedRadius,
           ),

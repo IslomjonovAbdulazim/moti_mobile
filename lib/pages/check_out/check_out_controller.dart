@@ -43,11 +43,13 @@ class CheckOutController extends GetxController {
     textFields = List.generate(
       hints.length,
       (index) => TextFieldModel(
+        validator: ((p0) {
+          return null;
+        }),
         controller: controllers[index],
         hintStyle: TextStyle(
           color: AppColors.instance.mainText,
           fontSize: Dimensions.font16,
-
         ),
         hintText: hints[index],
       ),
@@ -55,6 +57,9 @@ class CheckOutController extends GetxController {
     textFields2 = List.generate(
       hints2.length,
       (index) => TextFieldModel(
+        validator: (p0) {
+          return null;
+        },
         controller: controllers2[index],
         hintStyle: TextStyle(
           color: AppColors.instance.mainText,
