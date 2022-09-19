@@ -8,7 +8,7 @@ import 'package:moti/pages/profile/profile_controller.dart';
 
 class DIService {
   static void get init {
-    Get.lazyPut(() => HomeController(), fenix: true);
+    Get.put(() => HomeController());
     Get.lazyPut(() => CheckOutController(), fenix: true);
     Get.lazyPut(() => HistoryAndFavouriteController(), fenix: true);
     Get.lazyPut(() => LetsInController(), fenix: true);

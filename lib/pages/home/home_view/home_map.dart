@@ -8,6 +8,7 @@ class HomeMap extends StatelessWidget {
   const HomeMap({Key? key}) : super(key: key);
 
 
+
   @override
   Widget build(BuildContext context) {
     return
@@ -40,7 +41,7 @@ class HomeMap extends StatelessWidget {
                         child:  Icon(
                           Icons.location_on,
                           color: controller.animationColor.value,
-                          size: 30,
+                          size: 50,
                         ),
                       );
                     },
@@ -48,6 +49,29 @@ class HomeMap extends StatelessWidget {
                 ),
 
               ),
+              Align(
+                alignment: Alignment.topRight,
+                child: GestureDetector(
+                  onTap:(){
+          controller.getProducts();
+          controller.getCategory();
+                  } ,
+                  onDoubleTap: (){
+                    //controller.jumpToCategoryProduct();
+                  },
+                  child:  Container(
+                    margin: const EdgeInsets.only(right: 50, top: 50),
+                    height: 40,
+                    width: 100,
+                    color: Colors.blueAccent,
+                    child: const Center(
+                      child: Text(
+                        "Bicycle road"
+                      ),
+                    ),
+                  ),
+                ),
+              )
             ],
           );
         }
