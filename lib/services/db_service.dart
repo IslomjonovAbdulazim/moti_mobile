@@ -6,7 +6,7 @@ class DBService {
 
   static DBService instance = DBService._();
 
-  Future<bool> store(String key, String value) async {
+  Future<bool> store(String key, String? value) async {
     final Keys k = Keys.instance;
     final db = await Hive.openBox(k.db);
     try {

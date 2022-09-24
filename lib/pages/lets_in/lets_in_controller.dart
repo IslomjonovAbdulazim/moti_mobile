@@ -30,14 +30,14 @@ class LetsInController extends GetxController {
   late Masks _masks;
   late DBService _db;
   late Keys _keys;
+  final formKey = GlobalKey<FormState>();
   late ErrorTexts _errors;
-
+  bool isValidate = false;
   @override
   void onInit() {
     super.onInit();
     _initFields();
   }
-
 
   //getters
   int get getCurrentPageIndex => _currentPageIndex;
@@ -53,8 +53,20 @@ class LetsInController extends GetxController {
     update();
   }
 
+  void _validate() {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+      isValidate = true;
+    } else {
+      isValidate = false;
+    }
+    update();
+  }
+
   //to sign in
   Future<bool> doSignUp(String phoneNumber, String name) async {
+    _validate();
+    if (!isValidate) return false;
     final res = await _network.POST(
       _apis.registerUser,
       {
@@ -68,10 +80,13 @@ class LetsInController extends GetxController {
   }
 
   Future<bool> doSignIn(String phoneNumber) async {
+    print(phoneNumber);
+    _validate();
+    if (!isValidate) return false;
     final res = await _network.POST(
       _apis.loginUser,
       {"phonenumber": phoneNumber},
-      param: {"phonenumber":phoneNumber},
+      param: {"phonenumber": phoneNumber},
     );
     isSMSCodeSignIn = res != null;
 
@@ -81,6 +96,8 @@ class LetsInController extends GetxController {
 
   //to verify code
   Future<bool?> verifyCode(String phone, String code) async {
+    _validate();
+    if (!isValidate) return false;
     final res = await _network.GET(
       _apis.baseUrl,
       _apis.verifyUser,
@@ -92,8 +109,12 @@ class LetsInController extends GetxController {
     if (res == null) return false;
     final map = jsonDecode(res);
     final parse = TokenModel.fromJson(Map<String, dynamic>.from(map));
-    await _db.store(_keys.token, parse.body!.data!).then((value) => print('bbbbbbbbbbbbb store: $value'));
-    await _db.receive(_keys.token).then((value) => print('bbbbbbbbbbbbb get: $value'));
+    await _db
+        .store(_keys.token, parse.body!.data!)
+        .then((value) => print('bbbbbbbbbbbbb store: $value'));
+    await _db
+        .receive(_keys.token)
+        .then((value) => print('bbbbbbbbbbbbb get: $value'));
     return true;
   }
 
@@ -106,15 +127,15 @@ class LetsInController extends GetxController {
     _masks = Masks.instance;
     controllersSignIn = List.generate(
       2,
-          (index) => TextEditingController(
-        // text: index == 0 ? "998" : null,
-      ),
+      (index) => TextEditingController(
+          // text: index == 0 ? "998" : null,
+          ),
     );
     controllersSignUp = List.generate(
       3,
-          (index) => TextEditingController(
-        // text: "99",
-      ),
+      (index) => TextEditingController(
+          // text: "99",
+          ),
     );
     hintsSignIn = [
       "Phone Number",
@@ -129,14 +150,21 @@ class LetsInController extends GetxController {
 
     itemsSignIn = List.generate(
       controllersSignIn.length,
-          (index) => TextFieldModel(
+      (index) => TextFieldModel(
         validator: ((String? res) {
           switch (index) {
             case 0:
               {
-                if (res?.isEmpty ?? false) {
+                int? phone;
+                for (int i = 0; i < (res?.length ?? 0); i++) {
+                  if (int.tryParse(res![i]) != null) {
+                    phone = 10 * (phone ?? 0) + int.parse(res[i]);
+                  }
+                }
+                print(phone);
+                if (phone == null) {
                   return _errors.noEntered("Phone number");
-                } else if (res?.length == 9) {
+                } else if (phone.toString().length == 12) {
                   return null;
                 }
                 return _errors.invalid("Phone number");
@@ -155,8 +183,8 @@ class LetsInController extends GetxController {
         }),
         formatters: index == 0
             ? [
-          _masks.phoneNumber(),
-        ]
+                _masks.phoneNumber(),
+              ]
             : null,
         controller: controllersSignIn[index],
         hintStyle: TextStyle(
@@ -168,7 +196,7 @@ class LetsInController extends GetxController {
     );
     itemsSignUp = List.generate(
       controllersSignUp.length,
-          (index) => TextFieldModel(
+      (index) => TextFieldModel(
         validator: ((String? res) {
           switch (index) {
             case 0:
@@ -182,9 +210,15 @@ class LetsInController extends GetxController {
               }
             case 1:
               {
-                if (res?.isEmpty ?? false) {
+                int? phone;
+                for (int i = 0; i < (res?.length ?? 0); i++) {
+                  if (int.tryParse(res![i]) != null) {
+                    phone = 10 * (phone ?? 0) + int.parse(res[i]);
+                  }
+                }
+                if (phone == null) {
                   return _errors.noEntered("Phone number");
-                } else if (res?.length == 9) {
+                } else if (phone.toString().length == 12) {
                   return null;
                 }
                 return _errors.invalid("Phone number");
@@ -203,8 +237,8 @@ class LetsInController extends GetxController {
         }),
         formatters: index == 1
             ? [
-          _masks.phoneNumber(),
-        ]
+                _masks.phoneNumber(),
+              ]
             : null,
         controller: controllersSignUp[index],
         hintStyle: TextStyle(

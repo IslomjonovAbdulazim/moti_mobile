@@ -22,6 +22,7 @@ dependencies:
   geocoding: ^2.0.4
   http: ^0.13.5
   hive_flutter: ^1.1.0
+  provider: ^6.0.3
   device_preview: ^1.1.0
 
 

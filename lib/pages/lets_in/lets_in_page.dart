@@ -4,30 +4,21 @@ import 'package:moti/pages/lets_in/lets_in_controller.dart';
 import 'package:moti/pages/lets_in/lets_in_view/lets_in_tab_bar.dart';
 import 'package:moti/utils/colors.dart';
 import 'package:moti/utils/dimensions.dart';
+import 'package:provider/provider.dart';
 
 import '../../utils/masks.dart';
 import 'lets_in_view/lets_in_items.dart';
 
 class LetsInPage extends StatelessWidget {
-  final formKey = GlobalKey<FormState>();
-
-  void _singIn() {
-    if (formKey.currentState != null && formKey.currentState!.validate()) {
-      formKey.currentState!.save();
-    }
-  }
-
   LetsInPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final masks = Masks.instance;
     final colors = AppColors.instance;
-    final width = MediaQuery.of(context).size.width;
     return GetBuilder<LetsInController>(
       builder: (controller) {
         return Form(
-          key: formKey,
+          key: controller.formKey,
           child: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,
@@ -56,7 +47,8 @@ class LetsInPage extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   children: [
                     ...controller.itemsSignIn.map((item) {
-                      if (controller.isSMSCodeSignIn || item.hintText != "Sms code") {
+                      if (controller.isSMSCodeSignIn ||
+                          item.hintText != "Sms code") {
                         return LetsInItem(
                           item: item,
                         );
@@ -64,7 +56,8 @@ class LetsInPage extends StatelessWidget {
                       return const SizedBox.shrink();
                     }).toList(),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: Dimensions.height30),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 20, vertical: Dimensions.height30),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -99,7 +92,8 @@ class LetsInPage extends StatelessWidget {
                             await controller.verifyCode(phone.toString(), sms);
                           }
                         },
-                        child: Text(controller.isSMSCodeSignUp ? "Verify" : "Sing in"),
+                        child: Text(
+                            controller.isSMSCodeSignUp ? "Verify" : "Sing in"),
                       ),
                     ),
                   ],
@@ -109,7 +103,8 @@ class LetsInPage extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   children: [
                     ...controller.itemsSignUp.map((item) {
-                      if (controller.isSMSCodeSignUp || item.hintText != "Sms code") {
+                      if (controller.isSMSCodeSignUp ||
+                          item.hintText != "Sms code") {
                         return LetsInItem(
                           item: item,
                         );
@@ -117,7 +112,8 @@ class LetsInPage extends StatelessWidget {
                       return const SizedBox.shrink();
                     }).toList(),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: Dimensions.height30),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 20, vertical: Dimensions.height30),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -154,7 +150,8 @@ class LetsInPage extends StatelessWidget {
                             await controller.verifyCode(phone.toString(), sms);
                           }
                         },
-                        child: Text(controller.isSMSCodeSignIn ? "Verify" : "Sing up"),
+                        child: Text(
+                            controller.isSMSCodeSignIn ? "Verify" : "Sing up"),
                       ),
                     ),
                   ],
