@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart' as GeoCode;
 import 'package:geolocator/geolocator.dart';
@@ -8,6 +7,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:location/location.dart';
 import 'package:moti/models/parsing/AllCategory.dart';
 import 'package:moti/models/parsing/CategoryContent.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 import '../../models/parsing/moti_product_model.dart';
@@ -18,6 +18,8 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
   List<Product> allProducts = [];
   List<CategoryContent> allCategory = [];
   var response;
+
+  AutoScrollController controller1 = AutoScrollController();
   late ItemScrollController itemScrollProductController = ItemScrollController();
   //late ScrollController scrollProductController = ScrollController();
   late DraggableScrollableController scrollController =
@@ -44,6 +46,17 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
   bool colorBool = true;
   bool? isLocIcon;
   int duration = 600;
+   Future scrollToCounter(int categoryID) async {
+    int? test = allProducts.indexWhere((element) => element.categoryId == categoryID);
+    print(test);
+    if(test != -1){
+      await controller1.scrollToIndex(test,
+          );
+      await controller1.highlight(test);
+    }else{
+      return;
+    }
+  }
   var motiFirstPoint = const Point(latitude: 41.2995, longitude: 69.2401);
   List<MapObject> mapObjects = [  PlacemarkMapObject(
     mapId: const MapObjectId('placeMark_2'),
@@ -89,6 +102,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
     locationData = await location.getLocation();
     update();
   }
+
   Future<void> getAddressFromLatLong(latitude, longitude)async {
     List<GeoCode.Placemark?> placeMarks = await GeoCode.placemarkFromCoordinates(latitude!, longitude!);
     GeoCode.Placemark place = placeMarks[0]!;
@@ -164,19 +178,19 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
     if(resAllCategory != null){
       response = jsonDecode(resAllCategory);
       var res = AllCategory.fromJson(response);
-      allCategory = res.content!;
+      allCategory.addAll(res.content!);
       print(allCategory.length);
       update();
     }
   }
   List<MotiProductModel> products = List.generate(10, (index) => MotiProductModel(name: 'name: $index', isLiked: index.isEven, price: index * 10000, title: 'title: $index', imagePath: 'https://images.unsplash.com/photo-1657299171251-2a61ea716fbf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'),);
   jumpToCategoryProduct(int categoryID){
-
-   int? test = allProducts.lastIndexWhere((element) => element.categoryId == categoryID);
+   int? test = allProducts.indexWhere((element) => element.categoryId == categoryID);
    print(test);
    if(test != -1){
      itemScrollProductController.scrollTo(
          index: test,
+         alignment: 0.1,
          duration: const Duration(milliseconds: 500),
          curve: Curves.linear);
    }else{

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:moti/pages/home/home_controller.dart';
 import 'package:moti/pages/home/home_view/home_map.dart';
+import 'package:moti/pages/home/home_view/single_product.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 
 class DraggableScrollableSheetAnimation extends StatefulWidget {
@@ -13,9 +17,52 @@ class DraggableScrollableSheetAnimation extends StatefulWidget {
 
 class _DraggableScrollableSheetAnimationState extends State<DraggableScrollableSheetAnimation> {
   var homeController = Get.put(HomeController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    homeController.controller1  = AutoScrollController(
+        viewportBoundaryGetter: () =>
+            Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
+        axis: Axis.vertical);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 40,
+        elevation: 0,
+        backgroundColor: Colors.grey,
+        title: Container(
+          height: 40,
+          child: ListView.separated(
+            padding: const EdgeInsets.only(left: 10, bottom: 5),
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemCount: homeController.allCategory.length,
+            itemBuilder: (BuildContext context, int index){
+              return GestureDetector(
+                onTap:(){
+                  homeController.scrollToCounter(homeController.allCategory[index].id!);
+                  //homeController.jumpToCategoryProduct(homeController.allCategory[index].id!);
+                },
+                child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+
+                    ),
+                    height: 20,
+                    child: Center(child: Text(homeController.allCategory[index].name!, style: const TextStyle(color: Colors.black),))),
+              );
+            }, separatorBuilder: (BuildContext context, int index) {
+            return const SizedBox(width: 10,);
+          },),
+        ),
+
+      ),
       body: Stack(
         children: [
           Positioned.fill(
@@ -24,92 +71,77 @@ class _DraggableScrollableSheetAnimationState extends State<DraggableScrollableS
           ),
 
           Positioned.fill(
-            child: NotificationListener<DraggableScrollableNotification>(
-              onNotification: (notification) {
-                setState(() {
-                  homeController.percent = 2 * notification.extent - 0.8;
-                });
-                return true;
-              },
-              child: DraggableScrollableSheet(
-                snap: true,
-                maxChildSize: 0.9,
-                minChildSize: 0.4,
-                initialChildSize: 0.4,
-                builder: (_, controller) {
-                  return Material(
-                    elevation: 10,
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(20),
-                    ),
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Container(
-                                width: 40,
-                                color: Colors.grey[300],
-                                height: 2,
+            child: DraggableScrollableSheet(
+              snap: true,
+              maxChildSize: 0.9,
+              minChildSize: 0.4,
+              initialChildSize: 0.4,
+              builder: (_, controller) {
+                return Container(
+                  height: 600,
+                  width: double.infinity,
+                  child: SingleChildScrollView(
+                    controller: controller,
+                    child: Material(
+                      elevation: 20,
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      ),
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Container(
+                                  width: 40,
+                                  color: Colors.grey[300],
+                                  height: 2,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 5),
-                          const Text(
-                            'It\'s good to see you',
-                            style: TextStyle(color: Colors.grey, fontSize: 13),
-                          ),
-                          const SizedBox(height: 5),
-                          const Text(
-                            'Where are you going?',
-                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
-                          const SizedBox(height: 25),
-                          TextField(
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.search,
-                                color: Colors.purple[300],
+                            const SizedBox(height: 5),
+
+                            Expanded(
+                              child: ListView.builder(
+                                padding: const EdgeInsets.only(bottom: 40),
+                                //controller: controller,
+
+                                controller: homeController.controller1,
+                                itemCount: 20,
+                                itemBuilder: (context, index) {
+                                  return AutoScrollTag(
+                                    key: ValueKey(index),
+                                    controller: homeController.controller1,
+                                    index: index,
+                                    child: SingleProduct(item: homeController.allProducts[index],
+
+                                    ),
+                                  );
+                                },
                               ),
-                              hintText: 'Search destination',
                             ),
-                          ),
-                          Expanded(
-                            child: ListView.builder(
-                              padding: const EdgeInsets.only(bottom: 40),
-                              controller: controller,
-                              itemCount: 20,
-                              itemBuilder: (context, index) {
-                                return ListTile(
-                                  contentPadding: EdgeInsets.zero,
-                                  leading: const Icon(Icons.location_on_outlined),
-                                  title: Text('Address :$index'),
-                                  subtitle: Text('City $index'),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ),
-          Positioned(
-            left: 0,
-            right: 0,
-            top: -170 * (1 - homeController.percent),
-            child: Opacity(
-              opacity: homeController.percent,
-              child: _SearchDestination(),
-            ),
-          ),
+          // Positioned(
+          //   left: 0,
+          //   right: 0,
+          //   top: -170 * (1 - homeController.percent),
+          //   child: Opacity(
+          //     opacity: homeController.percent,
+          //     child: _SearchDestination(),
+          //   ),
+          // ),
           // Positioned(
           //   left: 0,
           //   right: 0,

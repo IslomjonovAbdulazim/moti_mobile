@@ -5,6 +5,8 @@ import 'package:moti/models/parsing/product_model.dart';
 import 'package:moti/utils/colors.dart';
 import 'package:moti/utils/icons.dart';
 import 'package:moti/utils/styles.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 
 class SingleProduct extends StatelessWidget {
   final Product item;
@@ -23,11 +25,11 @@ class SingleProduct extends StatelessWidget {
       child: Row(
         children: [
           Expanded(flex: 4, child: ClipRRect(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(12),
                 bottomLeft: Radius.circular(12),
               ),
-              child: Image.network(item.imageUrl!, fit: BoxFit.cover,))),
+              child: CachedNetworkImage( imageUrl: item.imageUrl!, fit: BoxFit.cover,))),
           Expanded(
             flex: 9,
             child: Padding(
