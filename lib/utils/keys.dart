@@ -7,4 +7,6 @@ class Keys {
 
   String db = "db";
   String token = "token";
+  String name = "name";
+  String phoneNumber = "phone";
 }

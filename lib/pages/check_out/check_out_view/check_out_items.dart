@@ -14,6 +14,10 @@ class CheckOutItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(items[0].hintText);
+    print(items[1].hintText);
+    print(items[0].controller.text);
+    print(items[1].controller.text);
     return Row(
       children: items
           .map(
@@ -33,6 +37,7 @@ class CheckOutItems extends StatelessWidget {
                       BorderRadius.circular(Dimensions.checkOutItemRadius),
                 ),
                 child: TextField(
+                  controller: item.controller,
                   cursorColor: Colors.black,
                   style: TextStyle(
                     fontSize: Dimensions.font16,

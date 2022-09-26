@@ -14,6 +14,7 @@ class CheckOutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CheckOutController>(
+      init: CheckOutController(),
       builder: (controller) {
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -33,7 +34,7 @@ class CheckOutPage extends StatelessWidget {
               currentPageIndex: controller.getCurrentPageIndex,
               onTap: () {
                 controller.setCurrentPageIndex =
-                controller.getCurrentPageIndex == 1 ? 0 : 1;
+                    controller.getCurrentPageIndex == 1 ? 0 : 1;
               },
             ),
             // HeaderText(
@@ -43,22 +44,26 @@ class CheckOutPage extends StatelessWidget {
             //   size: Dimensions.font20,
             // ),
           ),
-          body: PageView(
-            onPageChanged: (int newIndex) {
-              controller.setCurrentPageIndex = newIndex;
-            },
-            controller: controller.pageController,
-            children: [
-              CheckOutDelivery(
-                textFields: controller.textFields,
-                textFields2: controller.textFields2,
-              ),
-              CheckOutPickUp(
-                textFields: controller.textFields,
-                textFields2: controller.textFields2,
-              ),
-            ],
-          ),
+          body: controller.isLoading == null || controller.isLoading!
+              ? const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                )
+              : PageView(
+                  onPageChanged: (int newIndex) {
+                    controller.setCurrentPageIndex = newIndex;
+                  },
+                  controller: controller.pageController,
+                  children: [
+                    CheckOutDelivery(
+                      textFields: controller.textFields,
+                      textFields2: controller.textFields2,
+                    ),
+                    CheckOutPickUp(
+                      textFields: controller.textFieldsPickUp,
+                      textFields2: controller.textFields2PickUp,
+                    ),
+                  ],
+                ),
           floatingActionButton: const CheckOutNextButton(),
         );
       },

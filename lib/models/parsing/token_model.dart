@@ -8,7 +8,7 @@ class TokenModel {
       this.statusCode, 
       this.statusCodeValue,});
 
-  TokenModel.fromJson(Map<String, dynamic> json) {
+  TokenModel.fromJson(dynamic json) {
     headers = json['headers'];
     body = json['body'] != null ? Body.fromJson(json['body']) : null;
     statusCode = json['statusCode'];
@@ -36,24 +36,20 @@ Body bodyFromJson(String str) => Body.fromJson(json.decode(str));
 String bodyToJson(Body data) => json.encode(data.toJson());
 class Body {
   Body({
-      this.message, 
-      this.statusCode, 
-      this.data,});
+      this.id, 
+      this.token,});
 
   Body.fromJson(dynamic json) {
-    message = json['message'];
-    statusCode = json['statusCode'];
-    data = json['data'];
+    id = json['id'];
+    token = json['token'];
   }
-  String? message;
-  int? statusCode;
-  String? data;
+  int? id;
+  String? token;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['message'] = message;
-    map['statusCode'] = statusCode;
-    map['data'] = data;
+    map['id'] = id;
+    map['token'] = token;
     return map;
   }
 

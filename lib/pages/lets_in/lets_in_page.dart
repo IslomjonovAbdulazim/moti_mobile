@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:moti/pages/lets_in/lets_in_controller.dart';
 import 'package:moti/pages/lets_in/lets_in_view/lets_in_tab_bar.dart';
 import 'package:moti/utils/colors.dart';
 import 'package:moti/utils/dimensions.dart';
+import 'package:moti/utils/images.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/masks.dart';
@@ -89,7 +91,11 @@ class LetsInPage extends StatelessWidget {
                               }
                             }
                             print('sms: $sms,$phone');
-                            await controller.verifyCode(phone.toString(), sms);
+                            await controller.verifyCode(
+                              phone.toString(),
+                              sms,
+                              'Old name', //todo
+                            );
                           }
                         },
                         child: Text(
@@ -147,7 +153,11 @@ class LetsInPage extends StatelessWidget {
                               }
                             }
                             print('sms: $sms,$phone');
-                            await controller.verifyCode(phone.toString(), sms);
+                            await controller.verifyCode(
+                              phone.toString(),
+                              sms,
+                              controller.controllersSignIn[0].text,
+                            );
                           }
                         },
                         child: Text(
@@ -158,6 +168,12 @@ class LetsInPage extends StatelessWidget {
                 ),
               ],
             ),
+            floatingActionButton: SizedBox(
+              height: 100,
+              child: Image.asset(Im.instance.logo),
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
           ),
         );
       },

@@ -95,7 +95,7 @@ class LetsInController extends GetxController {
   }
 
   //to verify code
-  Future<bool?> verifyCode(String phone, String code) async {
+  Future<bool?> verifyCode(String phone, String code, String name) async {
     _validate();
     if (!isValidate) return false;
     final res = await _network.GET(
@@ -107,14 +107,20 @@ class LetsInController extends GetxController {
       },
     );
     if (res == null) return false;
+    print(res);
     final map = jsonDecode(res);
     final parse = TokenModel.fromJson(Map<String, dynamic>.from(map));
+    if (parse.body?.token == null) return false;
+    print('body: ${parse.body}');
     await _db
-        .store(_keys.token, parse.body!.data!)
-        .then((value) => print('bbbbbbbbbbbbb store: $value'));
-    await _db
-        .receive(_keys.token)
-        .then((value) => print('bbbbbbbbbbbbb get: $value'));
+        .store(_keys.token, parse.body!.token);
+
+    await _db.store(_keys.phoneNumber, phone);
+    await _db.store(_keys.name, name);
+    _db.receive(_keys.token).then(print);
+    _db.receive(_keys.name).then(print);
+    _db.receive(_keys.phoneNumber).then(print);
+
     return true;
   }
 
@@ -203,10 +209,8 @@ class LetsInController extends GetxController {
               {
                 if (res?.isEmpty ?? false) {
                   return _errors.noEntered("Name");
-                } else if (res?.length == 9) {
-                  return null;
                 }
-                return _errors.invalid("Name");
+                return null;
               }
             case 1:
               {

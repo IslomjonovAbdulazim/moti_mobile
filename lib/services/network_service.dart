@@ -15,6 +15,12 @@ class NetworkService {
     };
   }
 
+  Map<String, String> headersWithToken(String token) {
+    return {
+      'Authorization': token,
+    };
+  }
+
   Future<String?> GET(String baseUrl, String api,
       {Map<String, String>? params}) async {
     Uri url = Uri.http(baseUrl, api, params);
