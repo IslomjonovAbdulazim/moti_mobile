@@ -8,12 +8,15 @@ class NetworkService {
   NetworkService._();
 
   static final instance = NetworkService._();
+  String BASEURL = "78.24.219.215:8091";
 
   Map<String, String> get headers {
     return {
       'Content-type': 'application/json; charset=UTF-8',
+      'hl' : 'uz'
     };
   }
+
 
   Map<String, String> headersWithToken(String token) {
     return {

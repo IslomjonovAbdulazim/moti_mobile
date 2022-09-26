@@ -6,10 +6,12 @@ class Dimensions {
 
   //dynamic height
   static double height5 = screenHeight / 179.2;
+  static double height8 = screenHeight / 112;
   static double height10 = screenHeight / 89.6;
   static double height20 = screenHeight / 44.8;
   static double height15 = screenHeight / 59.73;
   static double height30 = screenHeight / 29.86;
+  static double height40 = screenHeight / 22.4;
   static double height45 = screenHeight / 19.91;
 
   //dynamic width
@@ -19,6 +21,7 @@ class Dimensions {
   static double width20 = screenWidth / 20.7;
   static double width30 = screenWidth / 13.8;
   static double width45 = screenWidth / 9.2;
+  static double marqueeWidth = screenWidth / 2.17;
 
   //font size
   static double font20 = screenHeight / 44.8;
@@ -27,6 +30,7 @@ class Dimensions {
 
   //icon size
   static double iconSize24 = screenHeight / 37.3;
+  static double iconSize16 = screenHeight / 56;
 
   //splash logo
   static double splashLogoHeight = screenHeight / 6.2;
@@ -46,6 +50,7 @@ class Dimensions {
 
   // categoryItemHeight
   static double categoryItemHeight = screenHeight / 18.6;
+
 
   // productItem
   static double productItemHeight = screenHeight / 7.4;

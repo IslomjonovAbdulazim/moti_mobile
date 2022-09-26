@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:moti/pages/home/home_controller.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class HomeMap extends StatefulWidget {
@@ -17,6 +19,7 @@ class _HomeMapState extends State<HomeMap> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     return
@@ -30,5 +33,68 @@ class _HomeMapState extends State<HomeMap> {
         indoorEnabled: false,
         liteModeEnabled: false,
         onMapCreated: _onMapCreated);
+      GetBuilder(
+        init: HomeController(),
+        builder: (HomeController controller) {
+          return Stack(
+            children: [
+              YandexMap(
+                mapObjects: controller.mapObjects,
+                tiltGesturesEnabled: true,
+                zoomGesturesEnabled: true,
+                rotateGesturesEnabled: true,
+                scrollGesturesEnabled: true,
+                modelsEnabled: true,
+                nightModeEnabled: false,
+                indoorEnabled: false,
+                liteModeEnabled: false,
+                onMapCreated: controller.onMapCreated,
+                onCameraPositionChanged: controller.onCameraPositionChanged,
+              ),
+              IgnorePointer(
+                child: Center(
+                  child:  AnimatedBuilder(
+                    animation: controller.animation,
+                    builder: (context, child) {
+                      return AnimatedPadding(
+                        padding: EdgeInsets.only(bottom: controller.animation.value),
+                        duration: const Duration(milliseconds: 500),
+                        child:  Icon(
+                          Icons.location_on,
+                          color: controller.animationColor.value,
+                          size: 50,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: GestureDetector(
+                  onTap:(){
+          controller.getAddressFromLatLong(controller.locationData!.latitude, controller.locationData!.longitude);
+                  } ,
+                  onDoubleTap: (){
+                    //controller.jumpToCategoryProduct();
+                  },
+                  child:  Container(
+                    margin: const EdgeInsets.only(right: 50, top: 50),
+                    height: 40,
+                    width: 100,
+                    color: Colors.blueAccent,
+                    child: const Center(
+                      child: Text(
+                        "Bicycle road"
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          );
+        }
+      );
   }
 }

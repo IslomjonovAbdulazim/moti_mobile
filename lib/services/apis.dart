@@ -13,6 +13,8 @@ class Apis {
   String registerUser = "/api/v1/auth/register_user";
   String sendActivationCode = "/api/v1/auth/send_code";
   String verifyUser = "/api/v1/auth/verify_code";
+  String allProducts = "/api/v1/product";
+  String allCategory = "/api/v1/category/user/page";
 
   ///history and favourites
   String getHistory = "/api/v1/order/history";

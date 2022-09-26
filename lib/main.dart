@@ -1,10 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:moti/pages/check_out/check_out_page.dart';
 import 'package:moti/pages/history_and_favourite/history_and_favourite_page.dart';
+import 'package:moti/pages/home/home_page.dart';
+import 'package:moti/pages/lets_in/lets_in_controller.dart';
 import 'package:moti/pages/lets_in/lets_in_page.dart';
 import 'package:moti/pages/profile/profile.dart';
+import 'package:moti/pages/profile/profile_page.dart';
+import 'package:moti/pages/splash/splash_page.dart';
 import 'package:moti/services/init_service.dart';
 import 'package:device_preview/device_preview.dart';
 
@@ -25,6 +28,5 @@ class _Moti extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       home: Profile(),
-    );
   }
 }
