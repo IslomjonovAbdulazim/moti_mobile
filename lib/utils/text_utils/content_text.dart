@@ -16,7 +16,6 @@ class ContentText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      maxLines: 1,
       style: TextStyle(color: color, fontWeight: fontWeight,
           fontSize:size == 0 ? Dimensions.font14 : size),
     );

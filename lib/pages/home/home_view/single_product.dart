@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/route_manager.dart';
+import 'package:marquee/marquee.dart';
 import 'package:moti/models/parsing/product_model.dart';
 import 'package:moti/utils/colors.dart';
+import 'package:moti/utils/dimensions.dart';
 import 'package:moti/utils/icons.dart';
 import 'package:moti/utils/styles.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:moti/utils/text_utils/subHeader_text.dart';
 
 
 class SingleProduct extends StatelessWidget {
@@ -16,24 +19,25 @@ class SingleProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: Get.width,
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      height: 150,
+      margin: EdgeInsets.all(Dimensions.height8),
+      height: Dimensions.productItemHeight,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(Dimensions.radius12),
         color: AppColors.instance.motiProductItemHomeBG,
       ),
       child: Row(
         children: [
-          Expanded(flex: 4, child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(12),
-                bottomLeft: Radius.circular(12),
+          ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(Dimensions.radius12),
+                bottomLeft: Radius.circular(Dimensions.radius12),
               ),
-              child: CachedNetworkImage( imageUrl: item.imageUrl!, fit: BoxFit.cover,))),
+              child: SizedBox(
+                  width: Dimensions.productImageWidth,
+                  child: CachedNetworkImage( imageUrl: item.imageUrl!, fit: BoxFit.cover,))),
           Expanded(
-            flex: 9,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              padding:  EdgeInsets.symmetric(vertical: Dimensions.height8, horizontal: Dimensions.height10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -41,18 +45,29 @@ class SingleProduct extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      item.productName!.length >20 ?
+                      SizedBox(
+                        width: Dimensions.marqueeWidth,
+                        height: Dimensions.font20 + 10,
+                        child: Marquee(
+                          text: item.productName!,
+                          style: TextStyles.textStyles.productMain,
+                          blankSpace: Dimensions.width45,
+                          velocity: 70,
+                          accelerationCurve: Curves.bounceOut,
+                          decelerationCurve: Curves.bounceIn,
+                          showFadingOnlyWhenScrolling: false,
+                          pauseAfterRound: const Duration(seconds: 1),
+                        ),
+                      ):
                       Text(
-                        item.id!.toString(),
+                        item.productName!.toString(),
                         style: TextStyles.textStyles.productMain,
                       ),
-                      Text(
-                        item.price.toString(),
-                        style: TextStyles.textStyles.productSubtitle,
-                      ),
-                      Text(
-                        item.price.toString(),
-                        style: TextStyles.textStyles.productPrice,
-                      ),
+                      SubHeaderText(text: item.price.toString(),color: Colors.black.withOpacity(0.6),),
+
+                      SubHeaderText(text: item.discount.toString(),color: Colors.black.withOpacity(0.6),),
+
                       const SizedBox.shrink(),
                     ],
                   ),
@@ -60,10 +75,12 @@ class SingleProduct extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+
+                        },
                         icon: SvgPicture.asset(
                           Ic.instance.heart,
-                          height: 25,
+                          height: Dimensions.iconSize24 -2,
                         ),
                         color: AppColors.instance.likeButton,
                       ),
@@ -71,7 +88,7 @@ class SingleProduct extends StatelessWidget {
                         onPressed: () {},
                         icon: SvgPicture.asset(
                           Ic.instance.cart,
-                          height: 25,
+                          height: Dimensions.iconSize24,
                         ),
                         color: AppColors.instance.cartBG,
                       ),

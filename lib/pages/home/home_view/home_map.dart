@@ -53,8 +53,7 @@ class HomeMap extends StatelessWidget {
                 alignment: Alignment.topRight,
                 child: GestureDetector(
                   onTap:(){
-          controller.getProducts();
-          controller.getCategory();
+          controller.getAddressFromLatLong(controller.locationData!.latitude, controller.locationData!.longitude);
                   } ,
                   onDoubleTap: (){
                     //controller.jumpToCategoryProduct();

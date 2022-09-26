@@ -15,4 +15,6 @@ class Ic {
   String navigateNext = "assets/icons/ic_navigate_next.svg";
   String profile = "assets/icons/ic_profile.svg";
   String repeat = "assets/icons/ic_repeat.svg";
+  String readyTime = "assets/icons/ic_ready_time.svg";
+  String price = "assets/icons/ic_price.svg";
 }

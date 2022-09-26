@@ -7,19 +7,21 @@ class HeaderText extends StatelessWidget {
   double size;
   FontWeight fontWeight;
   TextOverflow overFlow;
+  String? fontFamily;
 
   HeaderText({Key? key, this.color,
     required this.text,
+
     this.overFlow = TextOverflow.ellipsis,
-    this.fontWeight = FontWeight.w400,
-    this.size = 0}) : super(key: key);
+    this.fontWeight = FontWeight.w500,
+    this.size = 0,this.fontFamily}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
       maxLines: 1,
       overflow: overFlow,
-      style: TextStyle(color: color, fontWeight: fontWeight,
+      style: TextStyle(color: color, fontWeight: fontWeight, fontFamily: fontFamily ?? "Poppins",
           fontSize:size == 0 ? Dimensions.font20 : size),
     );
   }

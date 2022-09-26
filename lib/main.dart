@@ -9,17 +9,10 @@ import 'package:moti/pages/profile/profile.dart';
 import 'package:moti/pages/profile/profile_page.dart';
 import 'package:moti/pages/splash/splash_page.dart';
 import 'package:moti/services/init_service.dart';
-import 'package:device_preview/device_preview.dart';
-import 'package:provider/provider.dart';
 
 void main() async {
   await InitService.init;
-  runApp(
-    DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (context) => const _Moti(), // Wrap your app
-    ),
-  );
+  runApp(const _Moti());
 }
 
 class _Moti extends StatelessWidget {
@@ -28,6 +21,7 @@ class _Moti extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       home: SplashPage(),
     );
   }

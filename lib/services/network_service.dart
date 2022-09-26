@@ -13,6 +13,7 @@ class NetworkService {
   Map<String, String> get headers {
     return {
       'Content-type': 'application/json; charset=UTF-8',
+      'hl' : 'uz'
     };
   }
 

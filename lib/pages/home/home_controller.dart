@@ -7,6 +7,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:location/location.dart';
 import 'package:moti/models/parsing/AllCategory.dart';
 import 'package:moti/models/parsing/CategoryContent.dart';
+import 'package:moti/pages/detail_page/detail_page.dart';
 import 'package:moti/services/apis.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
@@ -20,7 +21,8 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
   List<Product> allProducts = [];
   List<CategoryContent> allCategory = [];
   var response;
-
+  final ItemPositionsListener itemPositionsListener =
+  ItemPositionsListener.create();
   late ItemScrollController itemScrollProductController = ItemScrollController();
   late DraggableScrollableController scrollController =
   DraggableScrollableController();
@@ -84,6 +86,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
     GeoCode.Placemark place = placeMarks[0]!;
     currentAddress = '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}';
     update();
+    print(currentAddress);
   }
   onCameraPositionChanged(CameraPosition cameraPosition,CameraUpdateReason cameraUpdateReason, bool bullet){
     currentPoint = cameraPosition.target;
@@ -102,7 +105,9 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
     }
     //print(currentAddress);
   }
-
+  void openDetailPage(Product product, BuildContext context){
+    Navigator.push(context, MaterialPageRoute(builder: (context)=> DetailPage(product: product,)));
+  }
   onMapCreated(YandexMapController controller) async{
     yandexController = controller;
     await yandexController.getCameraPosition().then((value) async{
@@ -145,7 +150,6 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
     if(resAllProducts != null){
       response = jsonDecode(resAllProducts);
       allProducts.addAll(productListFromJson(resAllProducts));
-      print(allProducts.last.imageUrl);
       update();
     }
   }
@@ -155,7 +159,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
       response = jsonDecode(resAllCategory);
       var res = AllCategory.fromJson(response);
       allCategory.addAll(res.content!);
-      print(allCategory.length);
+      print(allCategory.first.name);
       update();
     }
   }
