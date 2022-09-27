@@ -15,40 +15,63 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
   return Scaffold(
     backgroundColor: AppColors.instance.bg,
-      body: GetBuilder<HomeController>(
-        init: HomeController(),
-        builder: (controller) {
-          return SlidingUpPanel(
+      body:
+           SlidingUpPanel(
             panelSnapping: true,
             header: Container(
               width: MediaQuery.of(context).size.width,
               color: AppColors.instance.bg,
               height: Dimensions.categoryItemHeight,
               child:
-              ListView.separated(
-                padding: EdgeInsets.only(left: Dimensions.width10, bottom: Dimensions.height10),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: controller.allCategory.length,
-                  itemBuilder: (BuildContext context, int index){
+              GetBuilder<HomeController>(
+                init: HomeController(),
+                builder: (controller) {
+                  return ListView.builder(
+                    padding: EdgeInsets.only(left: Dimensions.width10, bottom: Dimensions.height10),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: controller.allCategory.length,
+                      itemBuilder: (BuildContext context, int index){
+                        if (controller.allProducts[controller.currentIndex].categoryId == controller.allCategory[index].id) {
+                          return GestureDetector(
+                          onTap:(){
+                            controller.jumpToCategoryProduct(controller.allCategory[index].id!);
+                            },
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 500),
+                              padding:  EdgeInsets.symmetric(horizontal: Dimensions.width10, vertical: Dimensions.height5),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(Dimensions.radius20),
+                              color: Colors.greenAccent,
 
-                    return GestureDetector(
-                      onTap:(){
-                        controller.jumpToCategoryProduct(controller.allCategory[index].id!);
-                        },
-                      child: Container(
-                          padding:  EdgeInsets.symmetric(horizontal: Dimensions.width10, vertical: Dimensions.height5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(Dimensions.radius20),
-                          color: Colors.white,
+                            ),
+                              height: Dimensions.categoryItemHeight,
+                              child: Center(child: HeaderText(text: controller.allCategory[index].name!,fontWeight: FontWeight.w500, fontFamily: "Inter",))),
+                        );
+                        } else {
+                          return GestureDetector(
+                          onTap:(){
+                            controller.jumpToCategoryProduct(controller.allCategory[index].id!);
+                          },
+                          child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 500),
+                              padding:  EdgeInsets.symmetric(horizontal: Dimensions.width10, vertical: Dimensions.height5),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(Dimensions.radius20),
+                                color: Colors.white,
 
-                        ),
-                          height: Dimensions.categoryItemHeight,
-                          child: Center(child: HeaderText(text: controller.allCategory[index].name!,fontWeight: FontWeight.w500, fontFamily: "Inter",))),
-                    );
-                  }, separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(width: Dimensions.width10,);
-              },),
+                              ),
+                              height: Dimensions.categoryItemHeight,
+                              child: Center(child: HeaderText(text: controller.allCategory[index].name!,fontWeight: FontWeight.w500, fontFamily: "Inter",))),
+                        );
+                        }
+                      },
+                  //   separatorBuilder: (BuildContext context, int index) {
+                  //       return SizedBox(width: Dimensions.width10,);
+                  // },
+                  );
+                }
+              ),
             ),
                 padding:  EdgeInsets.only(top: Dimensions.height10, bottom: 10),
                 parallaxEnabled: false,
@@ -61,9 +84,7 @@ class HomePage extends StatelessWidget {
                 panelBuilder: (ScrollController controller) =>
                     HomePanel(controller: controller,),
 
-          );
-        },
-      ),
+          ),
     );
   }
 }

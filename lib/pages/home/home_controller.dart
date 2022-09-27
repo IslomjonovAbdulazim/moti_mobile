@@ -18,6 +18,7 @@ import '../../services/network_service.dart';
 class HomeController extends GetxController with GetSingleTickerProviderStateMixin{
   var network = NetworkService.instance;
   var api = Apis.instance;
+  int currentIndex = 0;
   List<Product> allProducts = [];
   List<CategoryContent> allCategory = [];
   var response;
@@ -180,6 +181,11 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
   @override
   void onInit() {
     getPosition();
+    itemPositionsListener.itemPositions.addListener(() {
+      currentIndex = itemPositionsListener.itemPositions.value.first.index +1;
+      print(currentIndex);
+    });
+    update();
     animController = AnimationController(
       vsync: this,
       duration:  Duration(milliseconds: duration),
@@ -200,6 +206,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
         animController.repeat(reverse: true);
       }
     });
+
     super.onInit();
   }
 
