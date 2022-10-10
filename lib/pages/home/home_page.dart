@@ -17,6 +17,13 @@ class HomePage extends StatelessWidget {
     backgroundColor: AppColors.instance.bg,
       body:
            SlidingUpPanel(
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.transparent,
+                blurRadius: 0.0,
+                offset: Offset.zero
+              ),
+            ],
             panelSnapping: true,
             header: Container(
               width: MediaQuery.of(context).size.width,
@@ -26,27 +33,27 @@ class HomePage extends StatelessWidget {
               GetBuilder<HomeController>(
                 init: HomeController(),
                 builder: (controller) {
-                  return ListView.builder(
+                  return ListView.separated(
                     padding: EdgeInsets.only(left: Dimensions.width10, bottom: Dimensions.height10),
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
                       itemCount: controller.allCategory.length,
                       itemBuilder: (BuildContext context, int index){
-                        if (controller.allProducts[controller.currentIndex].categoryId == controller.allCategory[index].id) {
+                        if (controller.filteredProducts.isNotEmpty && controller.filteredProducts[controller.currentIndex].categoryId == controller.allCategory[index].id) {
                           return GestureDetector(
                           onTap:(){
                             controller.jumpToCategoryProduct(controller.allCategory[index].id!);
                             },
                           child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 500),
+                            duration: const Duration(milliseconds: 400),
                               padding:  EdgeInsets.symmetric(horizontal: Dimensions.width10, vertical: Dimensions.height5),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(Dimensions.radius20),
-                              color: Colors.greenAccent,
+                              color: const Color(0xff69F0AE),
 
                             ),
                               height: Dimensions.categoryItemHeight,
-                              child: Center(child: HeaderText(text: controller.allCategory[index].name!,fontWeight: FontWeight.w500, fontFamily: "Inter",))),
+                              child: Center(child: HeaderText(text: controller.allCategory[index].name!,fontWeight: FontWeight.w500, fontFamily: "Inter", color: Colors.white,))),
                         );
                         } else {
                           return GestureDetector(
@@ -54,7 +61,7 @@ class HomePage extends StatelessWidget {
                             controller.jumpToCategoryProduct(controller.allCategory[index].id!);
                           },
                           child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 500),
+                              duration: const Duration(milliseconds: 400),
                               padding:  EdgeInsets.symmetric(horizontal: Dimensions.width10, vertical: Dimensions.height5),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(Dimensions.radius20),
@@ -65,7 +72,9 @@ class HomePage extends StatelessWidget {
                               child: Center(child: HeaderText(text: controller.allCategory[index].name!,fontWeight: FontWeight.w500, fontFamily: "Inter",))),
                         );
                         }
-                      },
+                      }, separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox( width: Dimensions.width10,);
+                  },
                   //   separatorBuilder: (BuildContext context, int index) {
                   //       return SizedBox(width: Dimensions.width10,);
                   // },
@@ -73,7 +82,7 @@ class HomePage extends StatelessWidget {
                 }
               ),
             ),
-                padding:  EdgeInsets.only(top: Dimensions.height10, bottom: 10),
+                padding:  EdgeInsets.only(top: Dimensions.height10, bottom: Dimensions.height10),
                 parallaxEnabled: false,
                 parallaxOffset: .5,
                 borderRadius:  BorderRadius.vertical(top: Radius.circular(Dimensions.radius12)),

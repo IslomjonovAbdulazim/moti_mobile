@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:moti/pages/home/home_controller.dart';
 import 'package:moti/pages/home/home_page.dart';
+import 'package:moti/pages/main/main_page.dart';
 
 class SplashPage extends StatefulWidget {
   static const String id = "splash_page";
@@ -19,7 +20,7 @@ class _SplashPageState extends State<SplashPage> {
     cont.getProducts();
     cont.getCategory();
     Timer(const Duration(seconds: 2),(){
-      Get.offAll(()=>const HomePage());
+      Get.offAll(()=>const MainPage());
     });
   }
   @override

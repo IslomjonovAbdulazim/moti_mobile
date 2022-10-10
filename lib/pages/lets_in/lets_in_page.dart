@@ -4,8 +4,6 @@ import 'package:moti/pages/lets_in/lets_in_controller.dart';
 import 'package:moti/pages/lets_in/lets_in_view/lets_in_tab_bar.dart';
 import 'package:moti/utils/colors.dart';
 import 'package:moti/utils/dimensions.dart';
-import 'package:provider/provider.dart';
-
 import '../../utils/masks.dart';
 import 'lets_in_view/lets_in_items.dart';
 

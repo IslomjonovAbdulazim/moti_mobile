@@ -7,4 +7,5 @@ class Keys {
 
   String db = "db";
   String token = "token";
+  String lang = "language";
 }

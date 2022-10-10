@@ -27,7 +27,8 @@ dependencies:
   geolocator: ^9.0.2
   cached_network_image: ^3.2.2
   marquee: ^2.2.3
-
+  badges: ^2.0.3
+  flutter_sticky_header: ^0.6.4
 
 dev_dependencies:
   flutter_test:

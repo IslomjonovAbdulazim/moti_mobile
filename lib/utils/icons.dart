@@ -5,6 +5,7 @@ class Ic {
   static Ic instance = Ic._();
 
   String cart = "assets/icons/ic_cart.svg";
+  String cart2 = "assets/icons/ic_cart2.svg";
   String carts = "assets/icons/ic_carts.svg";
   String heart = "assets/icons/ic_heart.svg";
   String search = "assets/icons/ic_search.svg";
@@ -17,4 +18,6 @@ class Ic {
   String repeat = "assets/icons/ic_repeat.svg";
   String readyTime = "assets/icons/ic_ready_time.svg";
   String price = "assets/icons/ic_price.svg";
+  //String price = "assets/icons/ic_price.svg";
+  String detailCart = "assets/icons/ic_detail_cart.svg";
 }

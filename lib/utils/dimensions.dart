@@ -30,6 +30,7 @@ class Dimensions {
 
   //icon size
   static double iconSize24 = screenHeight / 37.3;
+  static double iconSize29 = screenHeight / 30;
   static double iconSize16 = screenHeight / 56;
 
   //splash logo

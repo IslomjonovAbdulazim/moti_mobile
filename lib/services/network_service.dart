@@ -8,12 +8,12 @@ class NetworkService {
   NetworkService._();
 
   static final instance = NetworkService._();
-  String BASEURL = "78.24.219.215:8091";
+  String BASEURL = "drogrammer.uz";
 
   Map<String, String> get headers {
     return {
       'Content-type': 'application/json; charset=UTF-8',
-      'hl' : 'uz'
+      'hl' : 'ru'
     };
   }
 
@@ -25,7 +25,7 @@ class NetworkService {
     Response response = await get(url, headers: headers);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      return response.body;
+      return const Utf8Decoder().convert(response.body.codeUnits);
     }
 
     return null;

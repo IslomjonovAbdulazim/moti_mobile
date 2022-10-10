@@ -8,17 +8,19 @@ class HeaderText extends StatelessWidget {
   FontWeight fontWeight;
   TextOverflow overFlow;
   String? fontFamily;
+  TextAlign? textAlign;
 
   HeaderText({Key? key, this.color,
     required this.text,
 
     this.overFlow = TextOverflow.ellipsis,
     this.fontWeight = FontWeight.w500,
-    this.size = 0,this.fontFamily}) : super(key: key);
+    this.size = 0,this.fontFamily, this.textAlign = TextAlign.left}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
+      textAlign: textAlign,
       maxLines: 1,
       overflow: overFlow,
       style: TextStyle(color: color, fontWeight: fontWeight, fontFamily: fontFamily ?? "Poppins",

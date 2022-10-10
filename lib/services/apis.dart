@@ -4,7 +4,7 @@ class Apis {
   static Apis instance = Apis._();
 
   ///base url
-  String baseUrl = "78.24.219.215:8091";
+  String baseUrl = "drogrammer.uz";
 
   ///auth
   String registerAdmin = "/api/v1/auth/add_admin";

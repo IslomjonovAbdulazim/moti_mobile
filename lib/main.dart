@@ -1,14 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:moti/pages/history_and_favourite/history_and_favourite_page.dart';
-import 'package:moti/pages/home/home_page.dart';
-import 'package:moti/pages/lets_in/lets_in_controller.dart';
-import 'package:moti/pages/lets_in/lets_in_page.dart';
-import 'package:moti/pages/profile/profile.dart';
-import 'package:moti/pages/profile/profile_page.dart';
+import 'package:moti/pages/home/home_screen.dart';
 import 'package:moti/pages/splash/splash_page.dart';
 import 'package:moti/services/init_service.dart';
+import 'package:moti/services/lang_service.dart';
 
 void main() async {
   await InitService.init;
@@ -21,6 +16,12 @@ class _Moti extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      theme: ThemeData(
+        primaryColor: Colors.greenAccent
+      ),
+      translations: LangService(),
+      locale: LangService.locale,
+      fallbackLocale: LangService.fallbackLocale,
       debugShowCheckedModeBanner: false,
       home: SplashPage(),
     );

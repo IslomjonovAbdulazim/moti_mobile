@@ -10,32 +10,38 @@ class Product {
       this.id, 
       this.productName, 
       this.categoryId, 
-      this.description, 
+      this.categoryName,
+      this.description,
       this.price, 
       this.imageUrl, 
       this.discount, 
       this.favourite, 
+      this.readyTime,
       this.active,});
 
   Product.fromJson(dynamic json) {
     id = json['id'];
     productName = json['productName'];
     categoryId = json['categoryId'];
+    categoryName = json['categoryName'];
     description = json['description'];
     price = json['price'];
     imageUrl = json['imageUrl'];
     discount = json['discount'];
     favourite = json['favourite'];
+    readyTime = json['readyTime'];
     active = json['active'];
   }
   int? id;
   String? productName;
   int? categoryId;
+  String? categoryName;
   String? description;
-  num? price;
+  double? price;
   String? imageUrl;
-  num? discount;
+  double? discount;
   bool? favourite;
+  String? readyTime;
   bool? active;
 
   Map<String, dynamic> toJson() {
@@ -43,11 +49,13 @@ class Product {
     map['id'] = id;
     map['productName'] = productName;
     map['categoryId'] = categoryId;
+    map['categoryName'] = categoryName;
     map['description'] = description;
     map['price'] = price;
     map['imageUrl'] = imageUrl;
     map['discount'] = discount;
     map['favourite'] = favourite;
+    map['readyTime'] = readyTime;
     map['active'] = active;
     return map;
   }
