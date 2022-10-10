@@ -10,6 +10,7 @@ import 'package:moti/pages/profile/profile_page.dart';
 import 'package:moti/pages/splash/splash_page.dart';
 import 'package:moti/services/init_service.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:moti/services/lang_service.dart';
 
 void main() async {
   await InitService.init;
@@ -27,6 +28,15 @@ class _Moti extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      home: Profile(),
+      theme: ThemeData(
+        primaryColor: Colors.greenAccent
+      ),
+      translations: LangService(),
+      locale: LangService.locale,
+      fallbackLocale: LangService.fallbackLocale,
+      debugShowCheckedModeBanner: false,
+      home: SplashPage(),
+    );
+      home: Profile();
   }
 }

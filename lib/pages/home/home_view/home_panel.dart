@@ -4,6 +4,7 @@ import 'package:moti/pages/home/home_controller.dart';
 import 'package:moti/pages/home/home_view/single_product.dart';
 import 'package:moti/utils/dimensions.dart';
 import 'package:moti/utils/my_behaviour.dart';
+import 'package:moti/utils/text_utils/header_text.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class HomePanel extends StatelessWidget {
@@ -16,21 +17,24 @@ class HomePanel extends StatelessWidget {
       builder: (controller) {
    return ScrollConfiguration(
      behavior: MyBehavior(),
-     child: ScrollablePositionedList.builder(
+     child: controller.filteredProducts.isNotEmpty ? ScrollablePositionedList.builder(
        physics: const ClampingScrollPhysics(),
        padding: EdgeInsets.only(top: Dimensions.height40),
        itemScrollController: controller.itemScrollProductController,
        shrinkWrap: true,
        itemPositionsListener: controller.itemPositionsListener,
        addAutomaticKeepAlives: true,
-       itemCount: controller.allProducts.length,
+       itemCount: controller.filteredProducts.length,
        itemBuilder: (BuildContext context, int index) {
          return GestureDetector(
              onTap: (){
-               controller.openDetailPage(controller.allProducts[index], context);
+               controller.openDetailPage(controller.filteredProducts[index], context);
              },
-             child: SingleProduct(item: controller.allProducts[index]));
+             child: SingleProduct(item: controller.filteredProducts[index]));
        },
+     ) : Padding(
+       padding:  EdgeInsets.symmetric(vertical: Dimensions.checkOutMapHeight),
+       child: HeaderText(text: "No element found", textAlign: TextAlign.center,),
      ),
    );
       }

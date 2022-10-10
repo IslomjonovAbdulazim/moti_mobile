@@ -18,15 +18,14 @@ import '../../services/network_service.dart';
 class HomeController extends GetxController with GetSingleTickerProviderStateMixin{
   var network = NetworkService.instance;
   var api = Apis.instance;
+  int currentIndex = 1;
   List<Product> allProducts = [];
+  List<Product> filteredProducts = [];
   List<CategoryContent> allCategory = [];
   var response;
   final ItemPositionsListener itemPositionsListener =
   ItemPositionsListener.create();
   late ItemScrollController itemScrollProductController = ItemScrollController();
-  late DraggableScrollableController scrollController =
-  DraggableScrollableController();
-  PageController pageController = PageController();
   double percent = 0.0;
   double hight = 0;
   double splashRadius = 3;
@@ -150,6 +149,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
     if(resAllProducts != null){
       response = jsonDecode(resAllProducts);
       allProducts.addAll(productListFromJson(resAllProducts));
+      filteredProducts = allProducts;
       update();
     }
   }
@@ -163,23 +163,37 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
       update();
     }
   }
-  List<MotiProductModel> products = List.generate(10, (index) => MotiProductModel(name: 'name: $index', isLiked: index.isEven, price: index * 10000, title: 'title: $index', imagePath: 'https://images.unsplash.com/photo-1657299171251-2a61ea716fbf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'),);
   jumpToCategoryProduct(int categoryID){
-   int? test = allProducts.indexWhere((element) => element.categoryId == categoryID);
+   int? test = filteredProducts.indexWhere((element) => element.categoryId == categoryID);
    print(test);
    if(test != -1){
      itemScrollProductController.scrollTo(
          index: test,
          alignment: 0.1,
-         duration: const Duration(milliseconds: 500),
+         duration: const Duration(milliseconds: 400),
          curve: Curves.linear);
    }else{
      return;
    }
   }
+
+  void filterProduct(String filterValue){
+    List<Product> resultOfFilter = [];
+    if(filterValue.isEmpty){
+      resultOfFilter = allProducts;
+    }else{
+      resultOfFilter = allProducts.where((element) => element.productName!.toLowerCase().contains(filterValue.toLowerCase())).toList();
+    }
+    filteredProducts = resultOfFilter;
+    update();
+  }
   @override
   void onInit() {
     getPosition();
+    itemPositionsListener.itemPositions.addListener(() {
+      currentIndex = itemPositionsListener.itemPositions.value.first.index;
+      update();
+    });
     animController = AnimationController(
       vsync: this,
       duration:  Duration(milliseconds: duration),
@@ -200,6 +214,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
         animController.repeat(reverse: true);
       }
     });
+
     super.onInit();
   }
 
@@ -207,7 +222,6 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
   @override
   void onClose() {
     yandexController.dispose();
-    scrollController.dispose();
     super.onClose();
   }
 

@@ -9,4 +9,5 @@ class Keys {
   String token = "token";
   String name = "name";
   String phoneNumber = "phone";
+  String lang = "language";
 }

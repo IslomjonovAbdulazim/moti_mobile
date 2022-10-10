@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:marquee/marquee.dart';
 import 'package:moti/models/parsing/product_model.dart';
+import 'package:moti/pages/order/order_controller.dart';
 import 'package:moti/utils/colors.dart';
 import 'package:moti/utils/dimensions.dart';
 import 'package:moti/utils/icons.dart';
@@ -17,6 +18,7 @@ class SingleProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var orderController = Get.put(OrderController());
     return Container(
       width: Get.width,
       margin: EdgeInsets.all(Dimensions.height8),
@@ -64,9 +66,9 @@ class SingleProduct extends StatelessWidget {
                         item.productName!.toString(),
                         style: TextStyles.textStyles.productMain,
                       ),
-                      SubHeaderText(text: item.price.toString(),color: Colors.black.withOpacity(0.6),),
+                      SubHeaderText(text: item.categoryName!,color: Colors.black.withOpacity(0.6),),
 
-                      SubHeaderText(text: item.discount.toString(),color: Colors.black.withOpacity(0.6),),
+                      SubHeaderText(text: item.price!.toStringAsFixed(0),color: Colors.black.withOpacity(0.6),size: Dimensions.font20,),
 
                       const SizedBox.shrink(),
                     ],
@@ -84,13 +86,24 @@ class SingleProduct extends StatelessWidget {
                         ),
                         color: AppColors.instance.likeButton,
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: SvgPicture.asset(
-                          Ic.instance.cart,
-                          height: Dimensions.iconSize24,
-                        ),
-                        color: AppColors.instance.cartBG,
+                      GetBuilder<OrderController>(
+                        init: OrderController(),
+                        builder: (controller) {
+                          bool isBooked = controller.checkProduct(item);
+                          return IconButton(
+                            onPressed: () {
+                              !isBooked ?
+                              orderController.addToCart(item)
+                              :orderController.removeToCart(item);
+                            },
+                            icon: SvgPicture.asset(
+                              isBooked ? Ic.instance.cart2
+                              : Ic.instance.cart,
+                              height: Dimensions.iconSize29,
+
+                            ),
+                          );
+                        }
                       ),
                     ],
                   ),

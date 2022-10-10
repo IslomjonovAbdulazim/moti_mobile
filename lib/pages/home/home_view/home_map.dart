@@ -4,6 +4,11 @@ import 'package:moti/pages/home/home_controller.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class HomeMap extends StatefulWidget {
+import '../../../utils/dimensions.dart';
+import '../../detail_page/detail_view/circle_icon.dart';
+
+
+class HomeMap extends StatelessWidget {
   const HomeMap({Key? key}) : super(key: key);
 
   @override
@@ -23,16 +28,6 @@ class _HomeMapState extends State<HomeMap> {
   @override
   Widget build(BuildContext context) {
     return
-      YandexMap(
-        tiltGesturesEnabled: true,
-        zoomGesturesEnabled: true,
-        rotateGesturesEnabled: true,
-        scrollGesturesEnabled: true,
-        modelsEnabled: true,
-        nightModeEnabled: false,
-        indoorEnabled: false,
-        liteModeEnabled: false,
-        onMapCreated: _onMapCreated);
       GetBuilder(
         init: HomeController(),
         builder: (HomeController controller) {
