@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -16,7 +17,7 @@ class LetsInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = AppColors.instance;
+    final c = AppColors.instance;
     return GetBuilder<LetsInController>(
       builder: (controller) {
         return Form(
@@ -48,6 +49,36 @@ class LetsInPage extends StatelessWidget {
                 ListView(
                   physics: const BouncingScrollPhysics(),
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Welcome!',
+                          style: TextStyle(
+                            color: c.mainText,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 32,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Sign in to continue',
+                          style: TextStyle(
+                            color: c.secondaryText.withOpacity(.3),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
                     ...controller.itemsSignIn.map((item) {
                       if (controller.isSMSCodeSignIn ||
                           item.hintText != "Sms code") {
@@ -59,13 +90,15 @@ class LetsInPage extends StatelessWidget {
                     }).toList(),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: 20, vertical: Dimensions.height30),
+                        horizontal: 20,
+                        vertical: Dimensions.height30,
+                      ),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          primary: colors.mainButtonBG,
+                          primary: c.mainButtonBG,
                           fixedSize: const Size.fromHeight(50),
                         ),
                         onPressed: () async {
@@ -99,8 +132,21 @@ class LetsInPage extends StatelessWidget {
                           }
                         },
                         child: Text(
-                            controller.isSMSCodeSignUp ? "Verify" : "Sing in"),
+                          controller.isSMSCodeSignUp ? "Verify" : "Sing in",
+                        ),
                       ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            "Privacy policy",
+                            style: TextStyle(),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -108,6 +154,36 @@ class LetsInPage extends StatelessWidget {
                   // key: UniqueKey(),
                   physics: const BouncingScrollPhysics(),
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Welcome!',
+                          style: TextStyle(
+                            color: c.mainText,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 32,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Sign up to continue',
+                          style: TextStyle(
+                            color: c.secondaryText.withOpacity(.3),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
                     ...controller.itemsSignUp.map((item) {
                       if (controller.isSMSCodeSignUp ||
                           item.hintText != "Sms code") {
@@ -125,7 +201,7 @@ class LetsInPage extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          primary: colors.mainButtonBG,
+                          primary: c.mainButtonBG,
                           fixedSize: const Size.fromHeight(50),
                         ),
                         onPressed: () async {
@@ -161,8 +237,21 @@ class LetsInPage extends StatelessWidget {
                           }
                         },
                         child: Text(
-                            controller.isSMSCodeSignIn ? "Verify" : "Sing up"),
+                          controller.isSMSCodeSignIn ? "Verify" : "Sing up",
+                        ),
                       ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            "Privacy policy",
+                            style: TextStyle(),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

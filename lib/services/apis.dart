@@ -1,3 +1,5 @@
+final api = Apis.instance;
+
 class Apis {
   Apis._();
 
@@ -19,6 +21,6 @@ class Apis {
   ///history and favourites
   String getHistory = "/api/v1/order/history";
   String getFavourite = "/api/v1/product/favorites";
-  String addFavourtie = "/api/v1/product/favorite/"; //{id}
+  String addFavourite = "/api/v1/product/favorite/"; //{id}
 
 }

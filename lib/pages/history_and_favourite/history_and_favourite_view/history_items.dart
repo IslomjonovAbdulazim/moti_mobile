@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:moti/models/parsing/moti_order_model.dart';
+import 'package:moti/models/parsing/history_model.dart';
 import 'package:moti/utils/colors.dart';
 import 'package:moti/utils/dimensions.dart';
-import 'package:moti/utils/enums.dart';
 import 'package:moti/utils/text_utils/header_text.dart';
 import 'package:moti/utils/text_utils/subHeader_text.dart';
 
 class HistoryItems extends StatelessWidget {
-  final MotiOrderModel item;
+  final HistoryModel item;
 
   const HistoryItems({
     Key? key,
@@ -43,7 +42,7 @@ class HistoryItems extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 HeaderText(
-                  text: item.title,
+                  text: item.address.toString(),
                   fontWeight: FontWeight.w500,
                   color: AppColors.instance.mainText,
                 ),
@@ -56,7 +55,7 @@ class HistoryItems extends StatelessWidget {
                     ),
                     const SizedBox(width: 10),
                     SubHeaderText(
-                      text: "x  ${item.quantity}",
+                      text: "tushunmadim",
                       color: AppColors.instance.cancelAndQuantity,
                     ),
                   ],
@@ -70,8 +69,8 @@ class HistoryItems extends StatelessWidget {
                     ),
                   ),
                   child: SubHeaderText(
-                    text: OrderTypes.instance.enumToString(item.type),
-                    color: item.type == EnumOrderTypes.ON_GOING
+                    text: item.status.toString(),
+                    color: item.status == "ORDERED"
                         ? AppColors.instance.cancelAndQuantity
                         : AppColors.instance.subtitleText,
                   ),

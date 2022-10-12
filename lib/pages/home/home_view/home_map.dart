@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:moti/pages/home/home_controller.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
-
-class HomeMap extends StatefulWidget {
 import '../../../utils/dimensions.dart';
 import '../../detail_page/detail_view/circle_icon.dart';
 
-
-class HomeMap extends StatelessWidget {
+class HomeMap extends StatefulWidget {
   const HomeMap({Key? key}) : super(key: key);
 
   @override
@@ -23,7 +20,6 @@ class _HomeMapState extends State<HomeMap> {
           zoom: 12.0)));
     });
   }
-
 
   @override
   Widget build(BuildContext context) {

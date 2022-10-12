@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moti/models/parsing/favourites_model.dart';
 import 'package:moti/models/parsing/moti_product_model.dart';
 import 'package:moti/pages/history_and_favourite/history_and_favourite_view/favourite_items.dart';
 
@@ -7,7 +8,7 @@ import '../../../utils/dimensions.dart';
 import 'history_items.dart';
 
 class Favourites extends StatelessWidget {
-  final List<MotiProductModel> favourites;
+  final FavouritesModel favourites;
 
   const Favourites({
     Key? key,
@@ -21,9 +22,9 @@ class Favourites extends StatelessWidget {
       separatorBuilder: (BuildContext context, int index) => SizedBox(
         height: Dimensions.historyAndFavouriteItemSpace,
       ),
-      itemCount: favourites.length,
+      itemCount: favourites.body?.length ?? 0,
       itemBuilder: (BuildContext context, int index) => FavouriteItems(
-        item: favourites[index],
+        item: favourites.body![index],
       ),
     );
   }

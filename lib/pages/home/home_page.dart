@@ -89,7 +89,7 @@ class HomePage extends StatelessWidget {
                 color: AppColors.instance.bg,
                 minHeight: MediaQuery.of(context).size.height * .3,
                 maxHeight: MediaQuery.of(context).size.height * .85,
-                body: const HomeMap(),
+                body: HomeMap(),
                 panelBuilder: (ScrollController controller) =>
                     HomePanel(controller: controller,),
 

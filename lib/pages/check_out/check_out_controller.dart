@@ -9,6 +9,11 @@ import '../../utils/dimensions.dart';
 
 class CheckOutController extends GetxController {
   bool? isLoading;
+  String? _branch;
+  List<String> branches = [
+    "Branch 1",
+    "Branch 2",
+  ];
   late List<TextFieldModel> textFields;
   late List<TextFieldModel> textFields2;
   late List<TextFieldModel> textFieldsPickUp;
@@ -28,6 +33,13 @@ class CheckOutController extends GetxController {
   void onInit() {
     super.onInit();
     _initFields();
+  }
+
+  String? get branch => _branch;
+
+  set branch(String? b) {
+    _branch = b;
+    update();
   }
 
   void _initFields() async {
@@ -54,7 +66,6 @@ class CheckOutController extends GetxController {
       "Phone number",
     ];
     hints2PickUp = [
-      "Branch",
       "Comments",
       "On time",
     ];

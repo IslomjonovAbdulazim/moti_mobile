@@ -14,6 +14,7 @@ class HistoryAndFavouritePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return GetBuilder<HistoryAndFavouriteController>(
       builder: (controller) {
         return Scaffold(
@@ -29,14 +30,23 @@ class HistoryAndFavouritePage extends StatelessWidget {
               },
             ),
           ),
-          body: PageView(
-            controller: controller.pageController,
-            onPageChanged: (int newIndex) {
-              controller.setCurrentPageIndex = newIndex;
-            },
+          body: Stack(
             children: [
-              Histories(orders: controller.orders),
-              Favourites(favourites: controller.favourites),
+              PageView(
+                controller: controller.pageController,
+                onPageChanged: (int newIndex) {
+                  controller.setCurrentPageIndex = newIndex;
+                },
+                children: [
+                  Histories(orders: controller.orders),
+                  Favourites(favourites: controller.favourites),
+                ],
+              ),
+              if (controller.isLoading) ...{
+                const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                ),
+              }
             ],
           ),
         );

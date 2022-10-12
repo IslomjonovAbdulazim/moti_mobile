@@ -105,6 +105,7 @@ class LetsInController extends GetxController {
         "phone_number": phone,
         "code": code,
       },
+      header: _network.headers,
     );
     if (res == null) return false;
     print(res);

@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:moti/services/apis.dart';
 
+import '../main.dart';
+
+final network = NetworkService.instance;
+
 class NetworkService {
   final apis = Apis.instance;
   NetworkService._();
@@ -18,17 +22,19 @@ class NetworkService {
   }
 
 
-  Map<String, String> headersWithToken(String token) {
+  Map<String, String> headersWithToken(String tokenn) {
+    print("aaaaaaa"+token);
     return {
       'Authorization': token,
     };
   }
 
   Future<String?> GET(String baseUrl, String api,
-      {Map<String, String>? params}) async {
+      {Map<String, String>? params,required Map<String, String> header}) async {
     Uri url = Uri.http(baseUrl, api, params);
     print(url);
-    Response response = await get(url, headers: headers);
+    Response response = await get(url, headers: header);
+    print(response.statusCode);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return const Utf8Decoder().convert(response.body.codeUnits);
@@ -37,14 +43,14 @@ class NetworkService {
     return null;
   }
 
-  Future<Response?> POST(String api, Map<String, dynamic>? body, {Map<String, dynamic>? param}) async {
+  Future<Response?> POST(String api, Map<String, dynamic>? body, {Map<String, dynamic>? param, Map<String, String>? myHeader}) async {
     // print(param);
     String a = (param != null? "?$param": "");
     print(api+a);
     Uri url = Uri.http(apis.baseUrl, api,param);
     print('url: $url');
     Response response =
-        await post(url, headers: headers, body: jsonEncode(body));
+        await post(url, headers: myHeader ?? headers, body: jsonEncode(body));
 print(response.statusCode);
     if (response.statusCode == 200 || response.statusCode == 201) {
       return response;
